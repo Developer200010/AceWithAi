@@ -11,6 +11,8 @@ app.use(express.json());
 app.use(cookieParser())
 app.use("/api/auth", authRoutes);
 app.use("/api/questions", questionRoutes);
+app.use("/api/evaluate", evaluationRoutes);
+
 app.listen(process.env.PORT, () => {
     console.log(`server is running ${process.env.PORT}`)
 });
