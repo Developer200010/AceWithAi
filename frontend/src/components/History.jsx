@@ -26,7 +26,7 @@ export default function History() {
 
   if (loading) return <p className="text-center py-6">Loading history...</p>;
   if (!history.length)
-    return <p className="text-center py-6">No history yet.</p>;
+    return <p className="text-center text-2xl text-white py-6">No history yet.</p>;
 
   return (
     <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4">
