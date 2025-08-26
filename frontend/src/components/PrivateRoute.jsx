@@ -9,7 +9,7 @@ export default function PrivateRoute({ children }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get("http://localhost:4000/api/auth/check-auth", {
+        await axios.get("/api/auth/check-auth", {
           withCredentials: true, // important to send cookie
         });
         setIsAuthenticated(true);

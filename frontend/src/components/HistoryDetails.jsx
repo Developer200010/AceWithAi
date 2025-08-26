@@ -11,7 +11,7 @@ export default function HistoryDetail() {
     const fetchEvaluation = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/evaluate/history/${id}`,
+          `/api/evaluate/history/${id}`,
           { withCredentials: true }
         );
         setEvaluation(res.data.eval);

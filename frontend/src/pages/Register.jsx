@@ -36,8 +36,8 @@ export default function Register() {
 
     setLoading(true); // start loading
     try {
-      const user = await axios.post(
-        "http://localhost:4000/api/auth/register",
+       await axios.post(
+        "/api/auth/register",
         { username, email, password },
         { withCredentials: true }
       );

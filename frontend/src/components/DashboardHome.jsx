@@ -22,7 +22,7 @@ export default function DashboardHome() {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/questions/generate",
+        "/api/questions/generate",
         { topic },
         { withCredentials: true }
       );
@@ -46,7 +46,7 @@ export default function DashboardHome() {
 
     try {
       const evaluation = await axios.post(
-        "http://localhost:4000/api/evaluate",
+        "/api/evaluate",
         { question, answer },
         { withCredentials: true }
       );

@@ -9,7 +9,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const logoutUser = async () => {
     try {
       await axios.post(
-        "http://localhost:4000/api/auth/logout",
+        "/api/auth/logout",
         {},
         { withCredentials: true }
       );

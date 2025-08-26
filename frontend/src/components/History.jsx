@@ -10,7 +10,7 @@ export default function History() {
     const fetchHistory = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4000/api/evaluate/history",
+          "/api/evaluate/history",
           { withCredentials: true }
         );
         setHistory(res.data.history);
