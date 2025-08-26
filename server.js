@@ -10,7 +10,7 @@ const questionRoutes = require("./routes/questionRoutes");
 const evaluationRoutes = require("./routes/evaluateRoutes.js")
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
+  origin: "https://awacv.vercel.app", // your frontend URL
   credentials: true,
 }));
 app.use(express.json());
