@@ -1,43 +1,55 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const path = require("path");
 require("dotenv").config();
-const cookieParser = require("cookie-parser")
-const app = express();
-const path = require("path")
 
-const authRoutes = require("./routes/authRoutes.js")
-const questionRoutes = require("./routes/questionRoutes");
-const evaluationRoutes = require("./routes/evaluateRoutes.js")
-// Middleware
-app.use(cors({
-  origin: "https://awacv.vercel.app", // your frontend URL
-  credentials: true,
-}));
+const authRoutes = require("./routes/authRoutes.js");
+const questionRoutes = require("./routes/questionRoutes.js");
+const evaluationRoutes = require("./routes/evaluateRoutes.js");
+
+const app = express();
+
+// ------------------ MIDDLEWARE ------------------
+
+// Allow JSON and cookies
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+
+// CORS configuration
+const allowedOrigins = process.env.NODE_ENV === "production"
+  ? ["https://awacv.vercel.app"] // frontend production URL
+  : ["http://localhost:5173"];   // frontend dev URL
+
+app.use(
+  cors({
+    origin: function(origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
+// ------------------ ROUTES ------------------
 app.use("/api/auth", authRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/evaluate", evaluationRoutes);
+
+// ------------------ SERVE FRONTEND IN PRODUCTION ------------------
 if (process.env.NODE_ENV === "production") {
-  app.use(
-    cors({
-      origin: "http://localhost:4000",
-      credentials: true,
-    })
-  );
-  // Serve frontend
-  app.use(express.static(path.join(__dirname, "./frontend/dist")));
+  app.use(express.static(path.join(__dirname, "frontend", "dist")));
+
   app.get("/*any", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./", "frontend", "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
   });
-} else {
-  app.use(
-    cors({
-      credentials: true,
-    })
-  );
 }
 
-app.listen(process.env.PORT, () => {
-    console.log(`server is running ${process.env.PORT}`)
+// ------------------ START SERVER ------------------
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
