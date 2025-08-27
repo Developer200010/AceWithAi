@@ -16,23 +16,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS configuration
-const allowedOrigins = process.env.NODE_ENV === "production"
-  ? ["https://awacv.vercel.app"] // frontend production URL
-  : ["http://localhost:5173"];   // frontend dev URL
-
-app.use(
-  cors({
-    origin: function(origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
 
 // ------------------ ROUTES ------------------
 app.use("/api/auth", authRoutes);
@@ -41,10 +24,10 @@ app.use("/api/evaluate", evaluationRoutes);
 
 // ------------------ SERVE FRONTEND IN PRODUCTION ------------------
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "frontend", "dist")));
+  app.use(express.static(path.join(__dirname, "./frontend", "dist")));
 
   app.get("/*any", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "./frontend", "dist", "index.html"));
   });
 }
 
